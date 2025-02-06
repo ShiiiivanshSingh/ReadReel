@@ -1,21 +1,16 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Fade, IconButton } from '@mui/material'
-import { ArrowUp } from 'lucide-react'
+import { IconButton, Fade } from '@mui/material'
+import { ChevronUp } from 'lucide-react'
 
 export default function ScrollButton() {
   const [visible, setVisible] = useState(false)
 
-  useEffect(() => {
-    const toggleVisible = () => {
-      const scrolled = document.documentElement.scrollTop
-      setVisible(scrolled > 300)
-    }
-
-    window.addEventListener('scroll', toggleVisible)
-    return () => window.removeEventListener('scroll', toggleVisible)
-  }, [])
+  const toggleVisible = () => {
+    const scrolled = document.documentElement.scrollTop
+    setVisible(scrolled > 300)
+  }
 
   const scrollToTop = () => {
     window.scrollTo({
@@ -24,23 +19,32 @@ export default function ScrollButton() {
     })
   }
 
+  useEffect(() => {
+    window.addEventListener('scroll', toggleVisible)
+    return () => {
+      window.removeEventListener('scroll', toggleVisible)
+    }
+  }, [])
+
   return (
     <Fade in={visible}>
       <IconButton
         onClick={scrollToTop}
         sx={{
           position: 'fixed',
-          bottom: 24,
-          right: 24,
+          bottom: 20,
+          right: 20,
           bgcolor: 'background.paper',
           boxShadow: 2,
-          zIndex: 1200,
-          '&:hover': { bgcolor: 'background.paper' },
-          width: { xs: 36, sm: 40 },
-          height: { xs: 36, sm: 40 },
+          '&:hover': {
+            bgcolor: 'background.paper',
+            opacity: 0.8,
+          },
+          zIndex: 10,
+          display: visible ? 'flex' : 'none',
         }}
       >
-        <ArrowUp size={20} />
+        <ChevronUp />
       </IconButton>
     </Fade>
   )
