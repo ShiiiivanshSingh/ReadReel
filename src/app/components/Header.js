@@ -174,6 +174,7 @@ const Header = ({ onGenreSelect }) => {
               key={item.label}
               color="inherit"
               startIcon={item.icon}
+              onClick={() => handleNavigation(item.path)}
               sx={{
                 textTransform: 'none',
                 fontWeight: 500,

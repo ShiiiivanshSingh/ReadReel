@@ -30,6 +30,10 @@ import BookCard from './components/BookCard'
 import GenreSelector from './components/GenreSelector'
 import { fetchBooks } from './utils/api'
 
+// Add this import with the other imports
+import BookDescription from './components/BookDescription'
+
+
 // Dynamic imports to avoid SSR issues
 const ShareOverlay = dynamic(() => import('./components/ShareOverlay'), {
   ssr: false,
@@ -280,18 +284,10 @@ export default function Home() {
                     </Typography>
 
                     {/* Description */}
-                    <Typography 
-                      variant="body1" 
-                      sx={{ 
-                        opacity: 0.8,
-                        display: '-webkit-box',
-                        WebkitLineClamp: 3,
-                        WebkitBoxOrient: 'vertical',
-                        overflow: 'hidden',
-                      }}
-                    >
-                      {currentBook.description}
-                    </Typography>
+                    // Replace the Description section with:
+<Box sx={{ mb: { xs: 8, sm: 2 } }}> {/* Added bottom margin for small screens */}
+  <BookDescription description={currentBook.description} />
+</Box>
                   </Stack>
                 </Box>
 
