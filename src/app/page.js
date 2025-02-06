@@ -284,7 +284,7 @@ export default function Home() {
                     </Typography>
 
                     {/* Description */}
-                    // Replace the Description section with:
+
 <Box sx={{ mb: { xs: 8, sm: 2 } }}> {/* Added bottom margin for small screens */}
   <BookDescription description={currentBook.description} />
 </Box>
