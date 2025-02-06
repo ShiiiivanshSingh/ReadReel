@@ -1,4 +1,4 @@
- 'use client'
+'use client'
 
 import { useState, useEffect } from 'react'
 import { 
@@ -9,7 +9,7 @@ import {
   Fade,
   IconButton,
   Tabs,
-  Tab,
+  Tab
 } from '@mui/material'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import dynamic from 'next/dynamic'
@@ -22,14 +22,19 @@ const Header = dynamic(() => import('../components/Header'), {
 export default function Library() {
   const [books, setBooks] = useState([])
   const [currentIndex, setCurrentIndex] = useState(0)
-  const [activeTab, setActiveTab] = useState(0)
+  const [currentTab, setCurrentTab] = useState(0)
 
   useEffect(() => {
-    const savedBooks = localStorage.getItem('savedBooks')
-    if (savedBooks) {
-      setBooks(JSON.parse(savedBooks))
+    // Get library data from localStorage
+    const libraryData = localStorage.getItem('library')
+    if (libraryData) {
+      setBooks(JSON.parse(libraryData))
     }
   }, [])
+
+  const handleTabChange = (event, newValue) => {
+    setCurrentTab(newValue)
+  }
 
   const currentBook = books[currentIndex]
 
@@ -50,27 +55,25 @@ export default function Library() {
       <Header />
       
       <Container maxWidth="xl">
-        <Box sx={{ height: 'calc(100vh - 64px)', position: 'relative' }}>
-          <Tabs
-            value={activeTab}
-            onChange={(e, newValue) => setActiveTab(newValue)}
-            sx={{ mb: 4 }}
-          >
+        <Box sx={{ borderBottom: 1, borderColor: 'divider', mb: 4 }}>
+          <Tabs value={currentTab} onChange={handleTabChange}>
             <Tab label="All Books" />
             <Tab label="Currently Reading" />
             <Tab label="Completed" />
           </Tabs>
+        </Box>
 
+        <Box sx={{ height: 'calc(100vh - 64px - 48px)', position: 'relative' }}>
           {books.length === 0 ? (
             <Box sx={{ textAlign: 'center', mt: 8 }}>
               <Typography variant="h5">Your library is empty</Typography>
               <Typography variant="body1" sx={{ mt: 2, opacity: 0.7 }}>
-                Save books to add them to your library
+                Add books to your library to keep track of your reading
               </Typography>
             </Box>
           ) : currentBook && (
             <Fade in={true} timeout={300}>
-              <Box sx={{ height: 'calc(100% - 48px)', position: 'relative' }}>
+              <Box sx={{ height: '100%', position: 'relative' }}>
                 <BookCard book={currentBook} />
                 
                 <Stack
